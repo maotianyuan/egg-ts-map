@@ -107,7 +107,7 @@ interface SeetPointerConfig {
   gdlat: any;
   [NAME: string]: any;
 }
-function getPosition({ sheet, fileName }, self) {
+function getPosition({ sheet, fileName }, self?: boolean) {
   const sheetJSON: SeetJSONConfig[] = xlsx.utils.sheet_to_json(sheet);
   const heatMap = {};
   const rateObj = {};

@@ -191,5 +191,5 @@ export function getView(FILE_NAME_JS) {
       })
     </script>
   </body>
-  </html>`;
+  </html>`
 }

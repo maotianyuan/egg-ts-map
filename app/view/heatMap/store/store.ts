@@ -210,5 +210,5 @@ $(function(){
    ObjeHandler.init()
 })
   </script>
-  `;
+  `
 }

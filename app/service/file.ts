@@ -33,8 +33,8 @@ export default class FileService extends Service {
    */
   public async compressDir({ ctx, folderName, type, isDel }) {
     const sourceFolder = resolve(ctx.app.config.static.dir, folderName, EXPORT_FOLDER, type); // 源文件需要压缩的文件
-    const fileName = `${type}.zip`;
-    const targetZipFile = resolve(ctx.app.config.static.dir, folderName, EXPORT_FOLDER, fileName); // 压缩后文件放置文件目录
+    const fileName: string = `${type}.zip`;
+    const targetZipFile: string = resolve(ctx.app.config.static.dir, folderName, EXPORT_FOLDER, fileName); // 压缩后文件放置文件目录
     await compressing.zip.compressDir(sourceFolder, targetZipFile);
     ctx.attachment(fileName);
     console.log('--------compress---ok---------');

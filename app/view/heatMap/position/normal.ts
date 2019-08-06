@@ -237,5 +237,5 @@ $(function(){
 })
 
 </script>
-</html>`;
+</html>`
 }
