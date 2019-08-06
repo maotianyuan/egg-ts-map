@@ -47,7 +47,7 @@ function getPosition({ sheet, fileName }, self?: boolean) {
   const sheetJSON: SeetJSONConfig[] = xlsx.utils.sheet_to_json(sheet)
   const heatMap = {}
   const rateObj = {}
-  const [ TYPE, RATE, PROVINCE, CITY, PERSION ] = [ '位置信息', '覆盖占比', '省', '市', '人群包名称' ]
+  const [ TYPE, RATE, PROVINCE, CITY, PERSION ] = [ '结果类别', '覆盖占比', '省', '市', '人群包名称' ]
   const max = {}
   const selfProvince = sheetJSON && sheetJSON[0][PROVINCE]
   if (self) {
