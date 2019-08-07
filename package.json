@@ -25,6 +25,7 @@
     "compressing": "^1.4.0",
     "egg": "^2.6.1",
     "egg-scripts": "^2.6.0",
+    "egg-view-nunjucks": "^2.2.0",
     "xlsx": "^0.15.0"
   },
   "devDependencies": {

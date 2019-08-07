@@ -4,7 +4,6 @@ export default (app: Application) => {
   const { controller, router } = app
 
   router.get('/', controller.home.index)
-
   /**
    * 热力图
    */
