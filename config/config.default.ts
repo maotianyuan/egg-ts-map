@@ -12,8 +12,17 @@ export default (appInfo: EggAppInfo) => {
       '.tpl': 'nunjucks',
     },
   }
-
+  config.security = {
+    csrf: {
+      enable: false,
+    },
+  }
   // add your egg config in here
+  config.multipart = {
+    whitelist: [
+      '.xlsx',
+    ],
+  }
   config.middleware = []
 
   // add your special config in here

@@ -1,8 +1,11 @@
 import { Service } from 'egg'
-import { createReadStream, unlink, existsSync, readdirSync, statSync, unlinkSync, rmdirSync } from 'fs'
+import { write } from 'await-stream-ready'
+import sendToWormhole from 'stream-wormhole'
+import { createWriteStream, createReadStream, unlink, existsSync, readdirSync, statSync, unlinkSync, rmdirSync } from 'fs'
 import { resolve } from 'path'
 import * as compressing from 'compressing'
 const EXPORT_FOLDER = 'export' // 导出js html文件名
+const EXCEL_FOLDER = 'excel' // excel存放目录
 const DOWN_TEMPLATE_FOLER = 'template' // 导出js html文件名
 
 interface ZipConfig {
@@ -25,6 +28,16 @@ interface TemplateConfig {
 }
 
 export default class FileService extends Service {
+  public async uploadFile({ ctx, folderName, type, stream }) {
+    const fileName = stream.filename
+    const target = resolve(ctx.app.config.static.dir, folderName, EXCEL_FOLDER, type, fileName) // 示例 path： path/excel/test.xlsl
+    const writeStream = createWriteStream(target)
+    try {
+        await write(stream.pipe(writeStream))
+    } catch (err) {
+        await sendToWormhole(stream)
+    }
+  }
   public async readTemplateFile({ ctx, folderName, fileName }: TemplateConfig) {
     ctx.attachment(fileName)
     const filePath: string = resolve(ctx.app.config.static.dir, folderName, DOWN_TEMPLATE_FOLER, fileName) // 示例 path： path/template/index.zip
