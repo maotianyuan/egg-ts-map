@@ -24,7 +24,7 @@
       {% endfor %}
     </div>
     <div>
-      <form id="form4">
+      <form id="fileUploadFrom">
         <select name="" id="fileType">
           <option value="">文件类别</option>
           <option value="heatMapStoreIndex">热力图-特约店铺</option>
@@ -33,7 +33,7 @@
           <option value="pathIndex">路线派化-index</option>
         </select>
         <div>
-          <input type="file" class="file" multiple />
+          <input type="file" id="file" class="file" multiple />
         </div>
         <div>
           <input type="submit" value="上传" />
@@ -51,6 +51,7 @@
       const url = '/path/index/file/upload'
       if (!type) {
         alert('请选择文件上传类型')
+        return
       }
       const typeUrlConfig = {
         'heatMapStoreIndex': '/heatMap/store/file/upload',
@@ -58,13 +59,17 @@
         'heatMapPositionNormal': '/heatMap/position/normal/file/upload',
         'pathIndex': '/path/index/file/upload',
       }
-      e.preventDefault();
+      e.preventDefault()
       const formData = new FormData();
       const fileList = $(this).find('.file')[0].files;
       let index = 0;
       for (let key of fileList) {
         formData.append('file' + index, key);
         index++
+      }
+      if (index === 0){
+        alert('请上传文件')
+        return
       }
       $.ajax({
         url: typeUrlConfig[type],
@@ -73,10 +78,11 @@
         contentType: false,
         processData: false,
         success: function (result) {
-          console.log(result)
+          var file = document.getElementById('file')
+          file.value = ''
         },
         error: function (responseStr) {
-          alert("error", responseStr);
+          alert("error", responseStr)
         }
       });
     });

@@ -30,7 +30,7 @@ interface TemplateConfig {
 export default class FileService extends Service {
   public async uploadFile({ ctx, folderName, type, stream }) {
     const fileName = stream.filename
-    const target = resolve(ctx.app.config.static.dir, folderName, EXCEL_FOLDER, type, fileName) // 示例 path： path/excel/test.xlsl
+    const target = resolve(ctx.app.config.static.dir, folderName, EXCEL_FOLDER, type, fileName) // 示例 path： path/excel/test.xlsx
     const writeStream = createWriteStream(target)
     try {
         await write(stream.pipe(writeStream))
