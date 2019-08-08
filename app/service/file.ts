@@ -28,14 +28,39 @@ interface TemplateConfig {
 }
 
 export default class FileService extends Service {
-  public async uploadFile({ ctx, folderName, type, stream }) {
+  /**
+   * 单文件上传
+   */
+  public async uploadFileSingle({ ctx, folderName, type }) {
+    const stream = await ctx.getFileStream()
     const fileName = stream.filename
     const target = resolve(ctx.app.config.static.dir, folderName, EXCEL_FOLDER, type, fileName) // 示例 path： path/excel/test.xlsx
+    this.delFolder(resolve(ctx.app.config.static.dir, folderName, EXCEL_FOLDER, type), false) // 先删除当前路径下的文件
     const writeStream = createWriteStream(target)
     try {
         await write(stream.pipe(writeStream))
     } catch (err) {
         await sendToWormhole(stream)
+        throw err
+    }
+  }
+  /**
+   * 多文件上传
+   */
+  public async uploadFileMultiple({ ctx, folderName, type }) {
+    const parts = ctx.multipart()
+    let part: any = null
+    this.delFolder(resolve(ctx.app.config.static.dir, folderName, EXCEL_FOLDER, type), false) // 先删除当前路径下的文件
+    // tslint:disable-next-line: no-conditional-assignment
+    while ((part = await parts()) != null) {
+      try {
+          const target = resolve(ctx.app.config.static.dir, folderName, EXCEL_FOLDER, type, part.filename) // 示例 path： path/excel/test.xlsx
+          const writeStream = createWriteStream(target)
+          await write(part.pipe(writeStream))
+      } catch (err) {
+        await sendToWormhole(part)
+        throw err
+      }
     }
   }
   public async readTemplateFile({ ctx, folderName, fileName }: TemplateConfig) {
@@ -70,7 +95,7 @@ export default class FileService extends Service {
     console.log('--------compress---ok---------')
     return await this._readZipDel({ ctx, fileName, targetZipFile, isDel, sourceFolder })
   }
-  public async delFolder(path: string) {
+  public async delFolder(path: string, isDelFolder: boolean = true) {
     let files: string[] = []
     if (existsSync(path)) {
       files = readdirSync(path)
@@ -82,6 +107,7 @@ export default class FileService extends Service {
           unlinkSync(curPath) // 删除文件
         }
       })
+      if (!isDelFolder) return
       rmdirSync(path) // 删除目录
     }
   }

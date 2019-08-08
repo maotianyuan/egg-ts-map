@@ -19,7 +19,7 @@ export default (appInfo: EggAppInfo) => {
   }
   // add your egg config in here
   config.multipart = {
-    whitelist: [
+    fileExtensions: [
       '.xlsx',
     ],
   }

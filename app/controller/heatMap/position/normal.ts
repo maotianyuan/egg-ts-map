@@ -7,8 +7,7 @@ const TYPE = 'position/normal'
 export default class PositionNormalController extends Controller {
   public async upload () {
     const { ctx, service } = this
-    const stream = await ctx.getFileStream()
-    await service.file.uploadFile({ ctx, folderName: PAGE_TAG, type: TYPE, stream }) // 文件转存处理
+    await service.file.uploadFileMultiple({ ctx, folderName: PAGE_TAG, type: TYPE }) // 文件转存处理
     ctx.body = {
       code: 200,
       success: true,

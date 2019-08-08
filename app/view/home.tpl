@@ -80,6 +80,7 @@
         success: function (result) {
           var file = document.getElementById('file')
           file.value = ''
+          alert('上传成功')
         },
         error: function (responseStr) {
           alert("error", responseStr)

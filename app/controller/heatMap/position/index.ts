@@ -12,8 +12,7 @@ const isSelfProvince = false // 是否只获取本省内Excel数据，默认全�
 export default class PositionController extends Controller {
   public async upload () {
     const { ctx, service } = this
-    const stream = await ctx.getFileStream()
-    await service.file.uploadFile({ ctx, folderName: PAGE_TAG, type: TYPE, stream }) // 文件转存处理
+    await service.file.uploadFileMultiple({ ctx, folderName: PAGE_TAG, type: TYPE }) // 文件转存处理
     ctx.body = {
       code: 200,
       success: true,
