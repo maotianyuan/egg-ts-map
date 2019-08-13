@@ -1,4 +1,4 @@
-export function getView(FILE_NAME_JS) {
+export function getView(FILE_NAME_JS: any) {
 
   return `<!doctype html>
   <html lang="zh-CN">

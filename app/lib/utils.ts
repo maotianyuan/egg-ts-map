@@ -1,6 +1,6 @@
-export function handlerExceelTime(days: number): string | number {
-  if (!days) return days
-  const date = new Date('1900-01-01')
+export function handlerExceelTime(days: number): string {
+  if (!days) return days + ''
+  const date: Date = new Date('1900-01-01')
   days -= 2
   date.setDate(date.getDate() + days)
   let month: number | string = date.getMonth() + 1

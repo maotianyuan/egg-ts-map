@@ -49,6 +49,8 @@ export default (app: Application) => {
   router.get('/path/getJSON', controller.path.index.getJSON)
   // 路线派化-生成文件
   router.get('/path/createPath', controller.path.index.createPath)
+  // 路线派化-压缩并下载文件
+  router.get('/path/compress', controller.path.index.compress)
   // 路线派化-生成文件并且下载压缩文件
   router.get('/path/createPathDown', controller.path.index.createPathDown)
   // 路线派化-下载模版文件

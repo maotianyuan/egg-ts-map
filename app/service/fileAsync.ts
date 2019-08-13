@@ -2,21 +2,9 @@ import { Service } from 'egg'
 // tslint:disable-next-line: no-var-requires
 const fs = require('fs').promises
 import { join } from 'path'
-const EXPORT_FOLDER = 'export' // 导出js html文件名
-const EXPORT_JS_VARIABLE = 'EXTRA_DATA' // 导出js文件的变量名
-
-interface CreateJSConfig {
-  data: any[] // 多个Excel以数组形式存放data中
-  folderName: string // 模块文件
-  type: string // 模块文件类型
-}
-
-interface CreateHTMLConfig {
-  data: any[] // 多个Excel以数组形式存放data中
-  folderName: string // 模块文件
-  type: string // 模块文件类型
-  templateView: any // html模版回调方法
-}
+import { CreateJSConfig, CreateHTMLConfig } from '../interfaces'
+const EXPORT_FOLDER: string = 'export' // 导出js html文件名
+const EXPORT_JS_VARIABLE: string = 'EXTRA_DATA' // 导出js文件的变量名
 
 export default class FileAsyncService extends Service {
   /**

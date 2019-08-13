@@ -3,8 +3,8 @@ import { Service } from 'egg'
 const fs = require('fs').promises
 import { join } from 'path'
 import * as xlsx from 'xlsx'
-const EXCEL_FOLER = 'excel' // 存放Excel文件名
-const isAllowFileSuffix = [ 'xlsx' ] // Excel后缀名，目前仅支持xlsx
+const EXCEL_FOLER: string = 'excel' // 存放Excel文件名
+const isAllowFileSuffix: string[] = [ 'xlsx' ] // Excel后缀名，目前仅支持xlsx
 
 export default class ExcelService extends Service {
   /**
@@ -15,7 +15,7 @@ export default class ExcelService extends Service {
     const publicDir: any = this.app.config.static.dir
     const filePath = join(publicDir, folderName, EXCEL_FOLER, type) // public/path/excel/index
     const filesExcel = await this._getExcels({ filePath })
-    const positions = filesExcel.map(item => {
+    const positions = filesExcel.map((item: any) => {
       return handlerFormat(item)
     })
     return positions

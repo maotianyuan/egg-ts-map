@@ -1,12 +1,12 @@
-import { Controller } from 'egg'
+import { Controller, Context } from 'egg'
 import * as xlsx from 'xlsx'
 import { getView } from '../../../view/heatMap/position/normal'
-const PAGE_TAG = 'heatMap'
-const TYPE = 'position/normal'
-
+import { HeatMapPositionNormalSheet } from '../../../interfaces'
+const PAGE_TAG: string = 'heatMap'
+const TYPE: string = 'position/normal'
 export default class PositionNormalController extends Controller {
-  public async upload () {
-    const { ctx, service } = this
+  public async upload (ctx: Context) {
+    const { service } = this
     await service.file.uploadFileMultiple({ ctx, folderName: PAGE_TAG, type: TYPE }) // 文件转存处理
     ctx.body = {
       code: 200,
@@ -18,8 +18,8 @@ export default class PositionNormalController extends Controller {
   /**
    * 生成文件
    */
-  async createPath() {
-    const { ctx , service } = this
+  async createPath(ctx: Context) {
+    const { service } = this
     const data = await service.excel.getExcelsData({ folderName: PAGE_TAG, type: TYPE, handlerFormat: this.formatData }) // 获取PAGE_TAG文件夹下，所有Excel格式化后数据
     await service.fileAsync.writeFilesHTML({ data, folderName: PAGE_TAG, type: TYPE, templateView: getView }) // 生成对应html文件
     await service.fileAsync.writeFilesJS({ data, folderName: PAGE_TAG, type: TYPE }) // 生成js文件
@@ -29,32 +29,22 @@ export default class PositionNormalController extends Controller {
   /**
    * 压缩文件
    */
-  async compress() {
-    const { ctx, service } = this
+  async compress(ctx: Context) {
+    const { service } = this
     const content = await service.file.compressDir({ ctx, folderName: PAGE_TAG, type: TYPE, isDel: true }) // 压缩文件后将文件返回给服务器,并删除目标文件和压缩文件
     ctx.body = content
     ctx.status = 200
   }
   formatData({ sheets, fileName }) {
-    const positions = sheets.map(sheet => {
+    const positions = sheets.map((sheet: xlsx.WorkSheet): HeatMapPositionNormalSheet.Data => {
       return getPosition({ sheet, fileName })
     })
     return positions
   }
 }
 
-interface SeetJSONConfig {
-  lon: any
-  lat: any
-  RATE: any
-  PERSION: any
-  PROVINCE: any
-  CITY: any
-  [TYPE: string]: any
-}
-
 function getPosition({ sheet, fileName }, self?: boolean) {
-  const sheetJSON: SeetJSONConfig[] = xlsx.utils.sheet_to_json(sheet)
+  const sheetJSON: HeatMapPositionNormalSheet.Column[] = xlsx.utils.sheet_to_json(sheet)
   const heatMap = {}
   const rateObj = {}
   const [ TYPE, RATE, PROVINCE, CITY, PERSION ] = [ '结果类别', '覆盖占比', '省', '市', '人群包名称' ]
