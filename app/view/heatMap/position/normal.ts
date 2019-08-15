@@ -112,10 +112,9 @@ var heatmapOpts = {}
 var ObjeHandler = {
     init(){
         this.markerGroup = []
-        this.createIpt(EXTRA_DATA[0], 0)
-        this.createIpt(EXTRA_DATA[1], 1)
-        this.createIpt(EXTRA_DATA[2], 2)
-        this.createIpt(EXTRA_DATA[3], 3)
+        EXTRA_DATA.map((item, index)=>{
+          this.createIpt(item, index)
+        })
         this.initBaiduMap()
         this.action()
         $("#inputWrap .ipt:eq(0)").trigger('click')
