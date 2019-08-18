@@ -24,10 +24,18 @@ export default (appInfo: EggAppInfo) => {
     ],
   }
   config.middleware = []
-
   // add your special config in here
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
+    mailer: { // 邮件配置
+      service: 'qq',
+      port: 465,
+      auth: {
+        user: '1820184044@qq.com', // 账号
+        pass: 'tcnyvlmzhvapfccb', // 授权码,
+      },
+    },
+    mailerTo: 'tianyuan.mao@zebra-c.com', // 默认邮件接收者,可以同时发送多个,以逗号隔开
   }
 
   // the return config will combines to EggAppConfig

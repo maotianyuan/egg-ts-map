@@ -55,4 +55,9 @@ export default (app: Application) => {
   router.get('/path/createPathDown', controller.path.index.createPathDown)
   // 路线派化-下载模版文件
   router.get('/path/downTemplateFile', controller.path.index.downTemplateFile)
+
+  /**
+   * 邮件发送
+   */
+  router.get('/email/sendEmail', controller.email.index.index)
 }

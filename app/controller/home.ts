@@ -32,6 +32,12 @@ export default class HomeController extends Controller {
             { title: '路线派化-下载模版文件', url: '/path/downTemplateFile' },
           ],
         },
+        {
+          type: '邮件',
+          list: [
+            { title: '发送邮件', url: '/email/sendEmail' },
+          ],
+        },
       ],
     }
     await this.ctx.render('home.tpl', dataList)
