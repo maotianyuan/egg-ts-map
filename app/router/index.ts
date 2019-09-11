@@ -40,6 +40,12 @@ export default (app: Application) => {
   // 热力图-位置信息-normal-运营演示-单独压缩下载
   router.get('/heatMap/position/normal/compress', controller.heatMap.position.normal.compress)
 
+  // 热力图-位置信息-default-生成网页json
+  router.get('/heatMap/position/default/getJSON', controller.heatMap.position.defaultCity.getJSON)
+  // 热力图-位置信息-default-运营演示-生成文件
+  router.get('/heatMap/position/default/createPath', controller.heatMap.position.defaultCity.createPath)
+  // 热力图-位置信息-default-运营演示-单独压缩下载
+  router.get('/heatMap/position/default/compress', controller.heatMap.position.defaultCity.compress)
   /**
    * 路线派化
    */
