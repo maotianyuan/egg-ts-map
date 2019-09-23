@@ -6,6 +6,10 @@ const plugin: EggPlugin = {
     enable: true,
     package: 'egg-view-nunjucks',
   },
+  mysql: {
+    enable: true,
+    package: 'egg-mysql',
+  },
 }
 
 export default plugin

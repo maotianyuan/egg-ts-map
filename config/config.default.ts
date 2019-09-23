@@ -37,7 +37,15 @@ export default (appInfo: EggAppInfo) => {
     },
     mailerTo: 'tianyuan.mao@zebra-c.com', // 默认邮件接收者,可以同时发送多个,以逗号隔开
   }
-
+  config.mysql = {
+    client: {
+      host: 'localhost',
+      port: '3306',
+      user: 'root',
+      password: 'password@#!',
+      database: 'share',
+    },
+  }
   // the return config will combines to EggAppConfig
   return {
     ...config as {},

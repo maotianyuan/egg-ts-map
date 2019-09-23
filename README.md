@@ -31,3 +31,7 @@ $ npm start
 
 - Node.js 8.x
 - Typescript 2.8+
+
+
+## 问题参考文档
+['mysql' does not exist on type 'Application'](https://github.com/eggjs/egg/issues/2648)
