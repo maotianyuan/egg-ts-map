@@ -1,0 +1,52 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  font: 16px/1.2 'Microsoft YaHei', 'Avenir', Helvetica, Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #262626;
+}
+body,
+ul,
+dl,
+ol,
+li,
+dt,
+dd {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+}
+a:focus{
+  outline: none;
+}
+a:active,
+a:hover {
+  outline: none;
+  color: #25b864;
+}
+img {
+  vertical-align: middle;
+  border: 0;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+ul,
+li {
+  list-style: none;
+}
+
+a {
+  display: inline-block;
+  color: #262626;
+}
