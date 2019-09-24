@@ -51,12 +51,6 @@ export default (appInfo: EggAppInfo) => {
       database: 'share',
     },
   }
-  config.cluster = {
-    listen: {
-      port: 20011,
-      hostname: '0.0.0.0',
-    },
-  }
   // the return config will combines to EggAppConfig
   return {
     ...config as {},
