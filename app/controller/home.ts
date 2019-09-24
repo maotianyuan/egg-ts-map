@@ -2,7 +2,7 @@ import { Controller } from 'egg'
 
 export default class HomeController extends Controller {
   public async index() {
-    const results = await this.app.mysql.get('shareList', { key: 1 })
+    const results = await this.app.mysql.get('share_list', { id: 1 })
     console.log(JSON.parse(JSON.stringify(results)))
     const dataList = {
       routerList: [

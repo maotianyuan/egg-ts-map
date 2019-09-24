@@ -5,6 +5,7 @@ import 'egg';
 import ExportHome from '../../../app/controller/home';
 import ExportEmailIndex from '../../../app/controller/email/index';
 import ExportPathIndex from '../../../app/controller/path/index';
+import ExportShareIndex from '../../../app/controller/share/index';
 import ExportHeatMapPositionDefaultCity from '../../../app/controller/heatMap/position/defaultCity';
 import ExportHeatMapPositionIndex from '../../../app/controller/heatMap/position/index';
 import ExportHeatMapPositionNormal from '../../../app/controller/heatMap/position/normal';
@@ -18,6 +19,9 @@ declare module 'egg' {
     }
     path: {
       index: ExportPathIndex;
+    }
+    share: {
+      index: ExportShareIndex;
     }
     heatMap: {
       position: {

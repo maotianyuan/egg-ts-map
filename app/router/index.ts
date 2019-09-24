@@ -65,5 +65,12 @@ export default (app: Application) => {
   /**
    * 邮件发送
    */
-  router.get('/email/sendEmail', controller.email.index.index)
+  router.get('/share', controller.share.index.index)
+  router.get('/api/email/sendEmail', controller.email.index.index)
+  router.post('/api/share/add', controller.share.index.shareAdd)
+  router.post('/api/share/delete', controller.share.index.shareDelete)
+  router.post('/api/share/modify', controller.share.index.shareModify)
+  router.get('/api/share/list', controller.share.index.shareList)
+  router.get('/api/currentUser', controller.share.index.user)
+  router.post('/api/login/account', controller.share.index.account)
 }
