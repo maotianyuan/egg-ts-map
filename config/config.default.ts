@@ -39,7 +39,6 @@ export default (appInfo: EggAppInfo) => {
   }
   config.mysql = {
     client: {
-      debug: true,
       host: 'localhost',
       // host: '119.23.58.139',
       port: '3306',
