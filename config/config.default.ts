@@ -39,10 +39,16 @@ export default (appInfo: EggAppInfo) => {
   }
   config.mysql = {
     client: {
+      debug: true,
       host: 'localhost',
+      // host: '119.23.58.139',
       port: '3306',
       user: 'root',
-      password: 'password@#!',
+      password: 'root',
+      // connectionLimit: 5,
+      // connectTimeout: 200000,
+      // acquireTimeout: 40000,
+      // password: 'password@#!',
       database: 'share',
     },
   }
