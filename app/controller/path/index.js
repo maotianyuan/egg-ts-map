@@ -1,0 +1,101 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const egg_1 = require("egg");
+const xlsx = require("xlsx");
+const utils_1 = require("../../lib/utils");
+const index_1 = require("../../view/path/index");
+const PAGE_TAG = 'path';
+const TYPE = 'index';
+class PathController extends egg_1.Controller {
+    async upload(ctx) {
+        const { service } = this;
+        await service.file.uploadFileMultiple({ ctx, folderName: PAGE_TAG, type: TYPE }); // 文件转存处理
+        ctx.body = {
+            code: 200,
+            success: true,
+            rows: '上传成功',
+        };
+        ctx.status = 200;
+    }
+    /**
+     * 生成文件
+     */
+    async createPath(ctx) {
+        const { service } = this;
+        const data = await service.excel.getExcelsData({ folderName: PAGE_TAG, type: TYPE, handlerFormat: this.formatData }); // 获取PAGE_TAG文件夹下，所有Excel格式化后数据
+        await service.fileAsync.writeFilesHTML({ data, folderName: PAGE_TAG, type: TYPE, templateView: index_1.getView }); // 生成对应html文件
+        await service.fileAsync.writeFilesJS({ data, folderName: PAGE_TAG, type: TYPE }); // 生成js文件
+        ctx.body = 'success';
+        ctx.status = 200;
+    }
+    /**
+     * 生成文件并且下载压缩文件 @TODO 偶尔出错
+     */
+    async createPathDown(ctx) {
+        const { service } = this;
+        const data = await service.excel.getExcelsData({ folderName: PAGE_TAG, type: TYPE, handlerFormat: this.formatData }); // 获取PAGE_TAG文件夹下，所有Excel格式化后数据
+        console.log('--------write---html----begin-----');
+        await service.fileAsync.writeFilesHTML({ data, folderName: PAGE_TAG, type: TYPE, templateView: index_1.getView }); // 生成对应html文件
+        console.log('--------write---js----begin-----');
+        await service.fileAsync.writeFilesJS({ data, folderName: PAGE_TAG, type: TYPE }); // 生成js文件
+        console.log('--------begin---compress-----');
+        const content = await service.file.compressDir({ ctx, folderName: PAGE_TAG, type: TYPE, isDel: true }); // 压缩文件后将文件返回给服务器,并删除目标文件和压缩文件
+        ctx.body = content;
+        ctx.status = 200;
+    }
+    /**
+     * 压缩文件
+     */
+    async compress(ctx) {
+        const content = await this.service.file.compressDir({ ctx, folderName: PAGE_TAG, type: TYPE, isDel: true }); // 压缩文件后将文件返回给服务器,并删除目标文件和压缩文件
+        ctx.body = content;
+        ctx.status = 200;
+    }
+    /**
+     * 生成网页json
+     */
+    async getJSON(ctx) {
+        const { service } = this;
+        const data = await service.excel.getExcelsData({ folderName: PAGE_TAG, type: TYPE, handlerFormat: this.formatData }); // 获取PAGE_TAG文件夹下，所有Excel格式化后数据const rows = await this.service.excel.getExcelsData({ folderName: PAGE_TAG, handlerFormat: this.formatData });
+        ctx.body = {
+            code: 200,
+            data,
+            success: true,
+        };
+        ctx.status = 200;
+    }
+    /**
+     * 下载示例模版文件
+     */
+    async downTemplateFile(ctx) {
+        const { service } = this;
+        const fileName = 'index.zip';
+        const content = await service.file.readTemplateFile({ ctx, folderName: PAGE_TAG, fileName });
+        ctx.body = content;
+        ctx.status = 200;
+    }
+    formatData({ sheets, fileName }) {
+        const [PERSION, CITY, TIME, POSITION] = ['人员', '城市', '时间', '详细地址'];
+        const positions = sheets.map((sheet) => {
+            if (sheet) {
+                const sheetJSON = xlsx.utils.sheet_to_json(sheet);
+                const pathMap = {};
+                sheetJSON.forEach(item => {
+                    const { lon, lat, [POSITION]: position, [PERSION]: persion, [CITY]: city, [TIME]: time } = item;
+                    const arr = pathMap[persion] = pathMap[persion] || [];
+                    const targetTime = utils_1.handlerExceelTime(time);
+                    if (lon && lat) {
+                        arr.push([lon, lat, city, targetTime, position]);
+                    }
+                });
+                return Object.assign({
+                    fileName,
+                    pathMap,
+                });
+            }
+        });
+        return positions;
+    }
+}
+exports.default = PathController;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJpbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZCQUF5QztBQUN6Qyw2QkFBNEI7QUFDNUIsMkNBQW1EO0FBQ25ELGlEQUErQztBQUUvQyxNQUFNLFFBQVEsR0FBVyxNQUFNLENBQUE7QUFDL0IsTUFBTSxJQUFJLEdBQVcsT0FBTyxDQUFBO0FBQzVCLE1BQXFCLGNBQWUsU0FBUSxnQkFBVTtJQUM3QyxLQUFLLENBQUMsTUFBTSxDQUFFLEdBQVk7UUFDL0IsTUFBTSxFQUFFLE9BQU8sRUFBRSxHQUFHLElBQUksQ0FBQTtRQUN4QixNQUFNLE9BQU8sQ0FBQyxJQUFJLENBQUMsa0JBQWtCLENBQUMsRUFBRSxHQUFHLEVBQUUsVUFBVSxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsSUFBSSxFQUFFLENBQUMsQ0FBQSxDQUFDLFNBQVM7UUFDMUYsR0FBRyxDQUFDLElBQUksR0FBRztZQUNULElBQUksRUFBRSxHQUFHO1lBQ1QsT0FBTyxFQUFFLElBQUk7WUFDYixJQUFJLEVBQUUsTUFBTTtTQUNiLENBQUE7UUFDRCxHQUFHLENBQUMsTUFBTSxHQUFHLEdBQUcsQ0FBQTtJQUNsQixDQUFDO0lBQ0Q7O09BRUc7SUFDSSxLQUFLLENBQUMsVUFBVSxDQUFDLEdBQVk7UUFDbEMsTUFBTSxFQUFFLE9BQU8sRUFBRSxHQUFHLElBQUksQ0FBQTtRQUN4QixNQUFNLElBQUksR0FBVSxNQUFNLE9BQU8sQ0FBQyxLQUFLLENBQUMsYUFBYSxDQUFDLEVBQUUsVUFBVSxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsSUFBSSxFQUFFLGFBQWEsRUFBRSxJQUFJLENBQUMsVUFBVSxFQUFFLENBQUMsQ0FBQSxDQUFDLCtCQUErQjtRQUMzSixNQUFNLE9BQU8sQ0FBQyxTQUFTLENBQUMsY0FBYyxDQUFDLEVBQUUsSUFBSSxFQUFFLFVBQVUsRUFBRSxRQUFRLEVBQUUsSUFBSSxFQUFFLElBQUksRUFBRSxZ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

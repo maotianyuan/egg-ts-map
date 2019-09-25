@@ -45,11 +45,11 @@ export default (appInfo: EggAppInfo) => {
       // host: '119.23.58.139',
       port: '3306',
       user: 'root',
-      // password: 'root',
+      password: 'root',
       // connectionLimit: 5,
       // connectTimeout: 200000,
       // acquireTimeout: 40000,
-      password: 'password@#!',
+      // password: 'password@#!',
       database: 'share',
       define: {
         underscored: true,
