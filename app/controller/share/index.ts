@@ -16,14 +16,11 @@ export default class HomeController extends Controller {
   }
   public async shareAdd() {
     const { service, ctx } = this
-    const { name, subject, status, labels } = ctx.request.body
+    const { cover } = ctx.request.body
     ctx.body = { success: true, msg: '新增成功' }
     const data = {
-      name,
-      subject,
-      status,
-      labels,
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/iXjVmWVHbCJAyqvDxdtx.png',
+      ...ctx.request.body,
+      cover: cover || 'https://gw.alipayobjects.com/zos/rmsportal/iXjVmWVHbCJAyqvDxdtx.png',
     }
     await service.share.insert(data)
     ctx.body = { success: true, msg: '新增成功' }
@@ -37,14 +34,10 @@ export default class HomeController extends Controller {
   }
   public async shareModify() {
     const { service, ctx } = this
-    const { id, name, subject, status, labels } = ctx.request.body
+    const { cover } = ctx.request.body
     const data = {
-      id,
-      name,
-      subject,
-      status,
-      labels,
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/iXjVmWVHbCJAyqvDxdtx.png',
+      ...ctx.request.body,
+      cover: cover || 'https://gw.alipayobjects.com/zos/rmsportal/iXjVmWVHbCJAyqvDxdtx.png',
     }
     const success = await service.share.updated(data)
     ctx.body = { success, msg: success ? '修改成功' : '修改失败' }

@@ -5,7 +5,7 @@ export default (appInfo: EggAppInfo) => {
 
   // override config from framework / plugin
   // use for cookie sign key, should change to your own and keep security
-  config.keys = appInfo.name + '_1564971971790_6043'
+  config.keys = appInfo.name + '_1564971971790_6043_'
   config.view = {
     defaultViewEngine: 'nunjucks',
     mapping: {
@@ -23,7 +23,9 @@ export default (appInfo: EggAppInfo) => {
       '.xlsx',
     ],
   }
-  config.middleware = []
+  config.middleware = [
+    // 'cors',
+  ]
   // add your special config in here
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
@@ -43,12 +45,15 @@ export default (appInfo: EggAppInfo) => {
       // host: '119.23.58.139',
       port: '3306',
       user: 'root',
-      password: 'root',
+      // password: 'root',
       // connectionLimit: 5,
       // connectTimeout: 200000,
       // acquireTimeout: 40000,
-      // password: 'password@#!',
+      password: 'password@#!',
       database: 'share',
+      define: {
+        underscored: true,
+      },
     },
   }
   // the return config will combines to EggAppConfig
