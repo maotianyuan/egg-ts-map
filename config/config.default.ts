@@ -47,13 +47,8 @@ export default (appInfo: EggAppInfo) => {
       user: 'root',
       password: 'root',
       // connectionLimit: 5,
-      // connectTimeout: 200000,
-      // acquireTimeout: 40000,
       // password: 'password@#!',
       database: 'share',
-      define: {
-        underscored: true,
-      },
     },
   }
   // the return config will combines to EggAppConfig

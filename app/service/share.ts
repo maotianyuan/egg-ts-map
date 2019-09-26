@@ -6,6 +6,7 @@ export interface ListItemDataType {
   id?: number
   name?: string
   labels?: string
+  link?: string
   cover?: string
   status?: number
   subject?: string
