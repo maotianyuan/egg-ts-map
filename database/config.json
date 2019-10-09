@@ -1,0 +1,29 @@
+{
+  "development": {
+    "username": "root",
+    "password": "password@#!",
+    "database": "share",
+    "port": 3306,
+    "host": "localhost",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "root",
+    "password": "password@#!",
+    "database": "share",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "dialect": "mysql",
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "root",
+    "password": "root",
+    "database": "share",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "dialect": "mysql",
+    "operatorsAliases": false
+  }
+}

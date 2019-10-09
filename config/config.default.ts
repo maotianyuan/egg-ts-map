@@ -39,17 +39,23 @@ export default (appInfo: EggAppInfo) => {
     },
     mailerTo: 'tianyuan.mao@zebra-c.com', // 默认邮件接收者,可以同时发送多个,以逗号隔开
   }
-  config.mysql = {
-    client: {
-      host: 'localhost',
-      // host: '119.23.58.139',
-      port: '3306',
-      user: 'root',
-      password: 'root',
-      // connectionLimit: 5,
-      // password: 'password@#!',
-      database: 'share',
-    },
+  // config.mysql = {
+  //   client: {
+  //     host: 'localhost',
+  //     // host: '119.23.58.139',
+  //     port: '3306',
+  //     user: 'root',
+  //     // password: 'root',
+  //     password: 'password@#!',
+  //     database: 'share',
+  //   },
+  // }
+  config.sequelize = {
+    dialect: 'mysql',
+    host: '127.0.0.1',
+    port: 3306,
+    password: 'password@#!',
+    database: 'share',
   }
   // the return config will combines to EggAppConfig
   return {

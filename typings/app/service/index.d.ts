@@ -6,7 +6,6 @@ import ExportEmail from '../../../app/service/email';
 import ExportExcel from '../../../app/service/excel';
 import ExportFile from '../../../app/service/file';
 import ExportFileAsync from '../../../app/service/fileAsync';
-import ExportShare from '../../../app/service/share';
 
 declare module 'egg' {
   interface IService {
@@ -14,6 +13,5 @@ declare module 'egg' {
     excel: ExportExcel;
     file: ExportFile;
     fileAsync: ExportFileAsync;
-    share: ExportShare;
   }
 }

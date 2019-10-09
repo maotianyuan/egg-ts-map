@@ -1,5 +1,5 @@
 import { Controller } from 'egg'
-
+import { toInt } from '../../lib/utils'
 export default class HomeController extends Controller {
   public async index () {
     await this.ctx.render('share/index.tpl')
@@ -15,7 +15,7 @@ export default class HomeController extends Controller {
     }
   }
   public async shareAdd() {
-    const { service, ctx } = this
+    const { ctx } = this
     const { name, link, cover, subject, labels, status } = ctx.request.body
     const data = {
       name,
@@ -25,18 +25,24 @@ export default class HomeController extends Controller {
       status,
       cover: cover || 'https://gw.alipayobjects.com/zos/rmsportal/iXjVmWVHbCJAyqvDxdtx.png',
     }
-    await service.share.insert(data)
-    ctx.body = { success: true, msg: '新增成功' }
+    const share = await ctx.model.Share.create(data)
+    ctx.body = { success: true, msg: '新增成功', code: share }
   }
   public async shareDelete() {
-    const { service, ctx } = this
+    const { ctx } = this
     const { id } = ctx.request.body
     if (!id) { ctx.body = { success: true, msg: '请选择要删除的项' } }
-    await service.share.delete(id)
+    const _id = toInt(id.toString())
+    const share = await ctx.model.Share.findByPk(_id)
+    if (!share) {
+      ctx.body = { success: false, msg: '不存在' }
+      return
+    }
+    await share.destroy()
     ctx.body = { success: true, msg: '删除成功' }
   }
   public async shareModify() {
-    const { service, ctx } = this
+    const { ctx } = this
     const { id, name, link, cover, subject, labels, status } = ctx.request.body
     const data = {
       id,
@@ -47,12 +53,34 @@ export default class HomeController extends Controller {
       status,
       cover: cover || 'https://gw.alipayobjects.com/zos/rmsportal/iXjVmWVHbCJAyqvDxdtx.png',
     }
-    const success = await service.share.updated(data)
-    ctx.body = { success, msg: success ? '修改成功' : '修改失败' }
+    if (!id) { ctx.body = { success: true, msg: '请选择要删除的项' } }
+    const _id = toInt(id.toString())
+    const share = await ctx.model.Share.findByPk(_id)
+    if (!share) {
+      ctx.body = { success: false, msg: '不存在' }
+      return
+    }
+    await share.update(data)
+    ctx.body = { success: true, msg: '修改成功' }
   }
   public async shareList() {
-    const { service, ctx } = this
-    const result = await service.share.readAll()
+    const { ctx } = this
+    // const { name = null, subject = null, labels = null, status = null } = ctx.request.query
+    const { name = null } = ctx.request.query
+    const Op = this.app.Sequelize.Op
+    const result = await ctx.model.Share.findAll({
+      where: {
+        // status: {
+        //   // [Op.any]: [ status, null ],
+        // },
+        name: {
+          [Op.or]: {
+            [Op.substring]: name,
+            [Op.eq]: null,
+          },
+        },
+      },
+    })
     ctx.body = { success: true, list: result }
   }
 }
