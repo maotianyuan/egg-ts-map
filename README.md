@@ -37,3 +37,5 @@ $ npm start
 ['mysql' does not exist on type 'Application'](https://github.com/eggjs/egg/issues/2648)
 - egg报错:Please set config.keys first
   - npm run tsc
+
+[sequelize](https://sequelize.org/master)

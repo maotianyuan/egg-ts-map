@@ -65,22 +65,46 @@ export default class HomeController extends Controller {
   }
   public async shareList() {
     const { ctx } = this
-    // const { name = null, subject = null, labels = null, status = null } = ctx.request.query
-    const { name = null } = ctx.request.query
     const Op = this.app.Sequelize.Op
-    const result = await ctx.model.Share.findAll({
-      where: {
-        // status: {
-        //   // [Op.any]: [ status, null ],
-        // },
-        name: {
+    const { name = '' } = ctx.request.query
+    // const { category: labels = '', name = '' } = ctx.request.query
+    const target = {
+      labels: [ 'CSS' ],
+      name,
+    }
+    const search = {
+      where: {},
+    }
+    Object.keys(target).map(item => {
+      if (item === 'name') {
+        search.where[item] = {
           [Op.or]: {
-            [Op.substring]: name,
-            [Op.eq]: null,
+            [Op.substring]: target[item],
           },
-        },
-      },
+        }
+      } else {
+        search.where[item] = {
+          [Op.in]: target[item],
+        }
+      }
     })
+    const result = await ctx.model.Share.findAll(search)
+    ctx.body = { success: true, list: result }
+  }
+  public async shareCardList() {
+    const { ctx } = this
+    const Op = this.app.Sequelize.Op
+    const search = {
+      where: {},
+    }
+    Object.keys(ctx.request.query).map(item => {
+      search.where[item] = {
+        [Op.or]: {
+          [Op.substring]: ctx.request.query[item],
+        },
+      }
+    })
+    const result = await ctx.model.Share.findAll(search)
     ctx.body = { success: true, list: result }
   }
 }
