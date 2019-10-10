@@ -67,10 +67,14 @@ export default (app: Application) => {
    */
   router.get('/share', controller.share.index.index)
   router.get('/api/email/sendEmail', controller.email.index.index)
+  /**
+   * 分享小屋
+   */
   router.post('/api/share/add', controller.share.index.shareAdd)
   router.post('/api/share/delete', controller.share.index.shareDelete)
   router.post('/api/share/modify', controller.share.index.shareModify)
-  router.get('/api/share/list', controller.share.index.shareList)
+  router.get('/api/share/tableList', controller.share.index.shareList)
+  router.post('/api/share/cardlist', controller.share.index.shareCardList)
   router.get('/api/currentUser', controller.share.index.user)
   router.post('/api/login/account', controller.share.index.account)
 }

@@ -1,4 +1,5 @@
 import { Controller } from 'egg'
+import * as moment from 'moment'
 import { toInt } from '../../lib/utils'
 export default class HomeController extends Controller {
   public async index () {
@@ -63,19 +64,24 @@ export default class HomeController extends Controller {
     await share.update(data)
     ctx.body = { success: true, msg: '修改成功' }
   }
-  public async shareList() {
+  public async shareCardList() {
     const { ctx } = this
     const Op = this.app.Sequelize.Op
-    const { name = '' } = ctx.request.query
-    // const { category: labels = '', name = '' } = ctx.request.query
+    const { name = '', category = [] } = ctx.request.body
     const target = {
-      labels: [ 'CSS' ],
+      labels: category,
       name,
     }
     const search = {
-      where: {},
+      where: {
+        status: {
+          [Op.eq]: 0,
+        },
+      },
     }
     Object.keys(target).map(item => {
+      if (!target[item]) return
+      if (target[item].length <= 0) return
       if (item === 'name') {
         search.where[item] = {
           [Op.or]: {
@@ -89,22 +95,62 @@ export default class HomeController extends Controller {
       }
     })
     const result = await ctx.model.Share.findAll(search)
-    ctx.body = { success: true, list: result }
+    ctx.body = {
+      success: true,
+      list: result,
+    }
   }
-  public async shareCardList() {
+  public async shareList() {
     const { ctx } = this
     const Op = this.app.Sequelize.Op
-    const search = {
-      where: {},
+    const total = await ctx.model.Share.findAll()
+    const length = total.length
+    const { name = '', subject = '', status = '', labels = '', createdAt: created_at= '', updatedAt: updated_at = '', currentPage = 1, pageSize = 10 }: any = ctx.request.query
+    const offset = pageSize * (parseInt(currentPage) - 1)
+    let limit = parseInt(pageSize)
+    if (offset + pageSize > length) {
+      limit = length - offset
     }
-    Object.keys(ctx.request.query).map(item => {
-      search.where[item] = {
-        [Op.or]: {
-          [Op.substring]: ctx.request.query[item],
-        },
+    const search = {
+      where: { },
+      offset,
+      limit,
+    }
+    const target = {
+      name,
+      subject,
+      status,
+      labels,
+      created_at,
+      updated_at,
+    }
+    Object.keys(target).map(item => {
+      if (!target[item]) return
+      if (item === 'created_at') {
+        search.where[item] = {
+          [Op.gt]: moment(created_at).format(),
+        }
+      } else if (item === 'updated_at') {
+        search.where[item] = {
+          [Op.lt]: moment(updated_at).format(),
+        }
+      } else {
+        search.where[item] = {
+          [Op.or]: {
+            [Op.substring]: ctx.request.query[item],
+          },
+        }
       }
     })
     const result = await ctx.model.Share.findAll(search)
-    ctx.body = { success: true, list: result }
+    ctx.body = {
+      success: true,
+      list: result,
+      pagination: {
+        total: length,
+        pageSize: ~~pageSize,
+        current: parseInt(currentPage),
+      },
+    }
   }
 }
