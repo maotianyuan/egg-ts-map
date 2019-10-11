@@ -104,8 +104,7 @@ export default class HomeController extends Controller {
   public async shareList() {
     const { ctx } = this
     const Op = this.app.Sequelize.Op
-    const total = await ctx.model.Share.findAll()
-    const length = total.length
+    const { count: total } = await ctx.model.Share.findAndCountAll()
     const { name = '', subject = '', status = '', labels = '', createdAt: created_at= '', updatedAt: updated_at = '', currentPage = 1, pageSize = 10, sorter = 'updatedAt_descend' }: any = ctx.request.query
     const supperOrderKey = [ 'createdAt', 'updatedAt' ] // 支持排序字段
     const offset = pageSize * (parseInt(currentPage) - 1)
@@ -113,8 +112,8 @@ export default class HomeController extends Controller {
     const orderKey = supperOrderKey.includes(key) ? key : supperOrderKey[0]
     const orderValue = sorter.split('_')[1] === 'ascend' ? 'ASC' : 'DESC'
     let limit = parseInt(pageSize)
-    if (offset + pageSize > length) {
-      limit = length - offset
+    if (offset + pageSize > total) {
+      limit = total - offset
     }
     const search = {
       order: [
@@ -155,7 +154,7 @@ export default class HomeController extends Controller {
       success: true,
       list: result,
       pagination: {
-        total: length,
+        total,
         pageSize: ~~pageSize,
         current: parseInt(currentPage),
       },
