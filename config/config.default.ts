@@ -43,7 +43,8 @@ export default (appInfo: EggAppInfo) => {
     dialect: 'mysql',
     host: '127.0.0.1',
     port: 3306,
-    password: 'password@#!',
+    password: 'root',
+    // password: 'password@#!',
     database: 'share',
   }
   // the return config will combines to EggAppConfig
