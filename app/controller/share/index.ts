@@ -33,13 +33,11 @@ export default class HomeController extends Controller {
     const { ctx } = this
     const { id } = ctx.request.body
     if (!id) { ctx.body = { success: true, msg: '请选择要删除的项' } }
-    const _id = toInt(id.toString())
-    const share = await ctx.model.Share.findByPk(_id)
-    if (!share) {
-      ctx.body = { success: false, msg: '不存在' }
-      return
-    }
-    await share.destroy()
+    await ctx.model.Share.destroy({
+      where: {
+        id,
+      },
+    }),
     ctx.body = { success: true, msg: '删除成功' }
   }
   public async shareModify() {
@@ -73,6 +71,9 @@ export default class HomeController extends Controller {
       name,
     }
     const search = {
+      order: [
+        [ 'createdAt', 'DESC' ],
+      ],
       where: {
         status: {
           [Op.eq]: 0,
@@ -105,13 +106,20 @@ export default class HomeController extends Controller {
     const Op = this.app.Sequelize.Op
     const total = await ctx.model.Share.findAll()
     const length = total.length
-    const { name = '', subject = '', status = '', labels = '', createdAt: created_at= '', updatedAt: updated_at = '', currentPage = 1, pageSize = 10 }: any = ctx.request.query
+    const { name = '', subject = '', status = '', labels = '', createdAt: created_at= '', updatedAt: updated_at = '', currentPage = 1, pageSize = 10, sorter = 'updatedAt_descend' }: any = ctx.request.query
+    const supperOrderKey = [ 'createdAt', 'updatedAt' ] // 支持排序字段
     const offset = pageSize * (parseInt(currentPage) - 1)
+    const key = sorter.split('_')[0]
+    const orderKey = supperOrderKey.includes(key) ? key : supperOrderKey[0]
+    const orderValue = sorter.split('_')[1] === 'ascend' ? 'ASC' : 'DESC'
     let limit = parseInt(pageSize)
     if (offset + pageSize > length) {
       limit = length - offset
     }
     const search = {
+      order: [
+        [ orderKey, orderValue ],
+      ],
       where: { },
       offset,
       limit,
