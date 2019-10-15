@@ -77,4 +77,10 @@ export default (app: Application) => {
   router.post('/api/share/cardlist', controller.share.index.shareCardList)
   router.get('/api/currentUser', controller.share.index.user)
   router.post('/api/login/account', controller.share.index.account)
+
+  /**
+   * table工具
+   */
+  router.get('/table/user/getJSON', controller.table.index.getUserJSON)
+  router.get('/table/dealer/getJSON', controller.table.index.getDealerJSON)
 }

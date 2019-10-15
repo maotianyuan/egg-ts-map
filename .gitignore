@@ -19,3 +19,4 @@ config/**/*.map
 app/public/dbExcel
 app/public/heatMap
 app/public/path
+app/public/table
