@@ -53,22 +53,22 @@ function getPosition({ sheet, fileName }, self?: boolean) {
   if (self) {
     console.log('------本省-----')
     sheetJSON.forEach(item => {
-      const { lon, lat, [RATE]: rate, [PROVINCE] : province, [TYPE]: type } = item
+      const { glon, glat, [RATE]: rate, [PROVINCE] : province, [TYPE]: type } = item
       if (selfProvince === province) {
         const tempHeatMapArr = heatMap[type] = heatMap[type] || []
         const tempHeatRateArr = rateObj[type] = rateObj[type] || []
         tempHeatRateArr.push(rate)
-        tempHeatMapArr.push([ lon, lat, rate ])
+        tempHeatMapArr.push([ glon, glat, rate ])
       }
     })
   } else {
     console.log('------所有-----')
     sheetJSON.forEach(item => {
-      const { lon, lat, [RATE]: rate, [TYPE]: type } = item
+      const { glon, glat, [RATE]: rate, [TYPE]: type } = item
       const tempHeatMapArr = heatMap[type] = heatMap[type] || []
       const tempHeatRateArr = rateObj[type] = rateObj[type] || []
       tempHeatRateArr.push(rate)
-      tempHeatMapArr.push([ lon, lat, rate ])
+      tempHeatMapArr.push([ glon, glat, rate ])
     })
   }
 
