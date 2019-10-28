@@ -77,6 +77,13 @@ export default (app: Application) => {
   router.post('/api/share/cardlist', controller.share.index.shareCardList)
   router.get('/api/currentUser', controller.share.index.user)
   router.post('/api/login/account', controller.share.index.account)
+  /**
+   * 技能小屋
+   */
+  router.post('/api/bookmarks/type/add', controller.bookmarks.type.add)
+  router.post('/api/bookmarks/type/delete', controller.bookmarks.type.delete)
+  router.post('/api/bookmarks/type/modify', controller.bookmarks.type.modify)
+  router.get('/api/bookmarks/type/tableList', controller.bookmarks.type.list)
 
   /**
    * table工具
