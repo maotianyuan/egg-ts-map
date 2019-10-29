@@ -53,8 +53,10 @@ export default class BookMarksTagController extends Controller {
       limit = total - offset
     }
     const search = {
+      attributes: [ 'id', 'name', 'subject' ],
       include: {
         model: ctx.model.BookmarksType,
+        attributes: [ 'name' ],
       },
       where: { },
       offset,

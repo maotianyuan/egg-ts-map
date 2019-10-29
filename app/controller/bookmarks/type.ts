@@ -51,6 +51,7 @@ export default class BookMarksTypeController extends Controller {
       limit = total - offset
     }
     const search = {
+      attributes: [ 'id', 'name', 'subject' ],
       where: { },
       offset,
       limit,
