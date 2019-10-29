@@ -3,6 +3,7 @@
 
 import 'egg';
 import ExportHome from '../../../app/controller/home';
+import ExportBookmarksTag from '../../../app/controller/bookmarks/tag';
 import ExportBookmarksType from '../../../app/controller/bookmarks/type';
 import ExportEmailIndex from '../../../app/controller/email/index';
 import ExportPathIndex from '../../../app/controller/path/index';
@@ -17,6 +18,7 @@ declare module 'egg' {
   interface IController {
     home: ExportHome;
     bookmarks: {
+      tag: ExportBookmarksTag;
       type: ExportBookmarksType;
     }
     email: {

@@ -39,3 +39,13 @@ $ npm start
   - npm run tsc
 
 [sequelize](https://sequelize.org/master/manual/querying.html)
+
+
+## node
+- 初始化表格
+```shell
+npx sequelize migration:generate --name=init-users
+```
+
+## 学习
+http://docs.sequelizejs.com/
