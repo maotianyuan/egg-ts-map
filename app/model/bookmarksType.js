@@ -8,5 +8,6 @@ module.exports = app => {
     created_at: DATE,
     updated_at: DATE,
   });
+  BookmarkType.associate = function (){}
   return BookmarkType;
 };

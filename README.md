@@ -41,6 +41,8 @@ $ npm start
 [sequelize](https://sequelize.org/master/manual/querying.html)
 
 
+[联表查询参考](https://blog.csdn.net/weixin_34370347/article/details/91389028)
+
 ## node
 - 初始化表格
 ```shell

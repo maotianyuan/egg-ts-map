@@ -9,5 +9,11 @@ module.exports = app => {
     created_at: DATE,
     updated_at: DATE,
   });
+  BookmarkTag.associate = function (){
+    app.model.BookmarksTag.belongsTo(app.model.BookmarksType, {
+      foreignKey: 'type',
+      targetKey: 'id'
+    })
+  }
   return BookmarkTag;
 };
