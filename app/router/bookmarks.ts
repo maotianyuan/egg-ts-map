@@ -23,6 +23,6 @@ export default (app: Application) => {
   router.post('/api/bookmarks/list/add', controller.bookmarks.list.add)
   router.post('/api/bookmarks/list/delete', controller.bookmarks.list.delete)
   router.post('/api/bookmarks/list/modify', controller.bookmarks.list.modify)
-  router.get('/api/bookmarks/list/tableList', controller.bookmarks.list.list)
+  router.post('/api/bookmarks/list/tableList', controller.bookmarks.list.list)
   router.get('/api/bookmarks/list/getTypeTag', controller.bookmarks.list.getTypeTag)
 }

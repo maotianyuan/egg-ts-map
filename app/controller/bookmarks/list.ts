@@ -54,7 +54,7 @@ export default class BookmarksListController extends Controller {
     const { ctx } = this
     const Op = this.app.Sequelize.Op
     const { count: total } = await ctx.model.BookmarksList.findAndCountAll()
-    const { name = '', subject = '', type = [], icon = '', link = '', currentPage = 1, pageSize = 10 }: any = ctx.request.query
+    const { name = '', subject = '', type = [], icon = '', link = '', currentPage = 1, pageSize = 10 }: any = ctx.request.body
     const [ _type = '', tag = '' ] = type
     const offset = pageSize * (parseInt(currentPage) - 1)
     let limit = parseInt(pageSize)
@@ -87,12 +87,29 @@ export default class BookmarksListController extends Controller {
     }
     Object.keys(target).map(item => {
       if (!target[item]) return
+      if (item === 'type') {
+        search.where[item] = {
+          [Op.or]: {
+            [Op.substring]: _type,
+          },
+        }
+        return
+      }
+      if (item === 'tag') {
+        search.where[item] = {
+          [Op.or]: {
+            [Op.substring]: tag,
+          },
+        }
+        return
+      }
       search.where[item] = {
         [Op.or]: {
-          [Op.substring]: ctx.request.query[item],
+          [Op.substring]: ctx.request.body[item],
         },
       }
     })
+    console.log('====', search)
     const result = await ctx.model.BookmarksList.findAll(search)
     ctx.body = {
       success: true,
