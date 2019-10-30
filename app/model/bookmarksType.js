@@ -8,6 +8,11 @@ module.exports = app => {
     created_at: DATE,
     updated_at: DATE,
   });
-  BookmarkType.associate = function (){}
+  BookmarkType.associate = function (){
+    app.model.BookmarksType.hasMany(app.model.BookmarksTag, {
+      foreignKey: 'type',
+      targetKey: 'id'
+    })
+  }
   return BookmarkType;
 };
