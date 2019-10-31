@@ -62,7 +62,6 @@ export default class BookmarksListController extends Controller {
       limit = total - offset
     }
     const search = {
-      attributes: [ 'id', 'name', 'subject', 'tag', 'link', 'type', 'icon' ],
       include: [
         {
           model: ctx.model.BookmarksType,
