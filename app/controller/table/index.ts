@@ -38,7 +38,7 @@ export default class TableController extends Controller {
     const positions: PathSheet.Data = sheets.map((sheet: xlsx.WorkSheet) => {
       if (sheet) {
         const sheetJSON: PathSheet.Column[] = xlsx.utils.sheet_to_json(sheet)
-        const pathMap:any = []
+        const pathMap: any = []
         sheetJSON.forEach(item => {
           const { [NAME]: name, [TEL] : tel, [EMAIL]: email, [ACCOUNT]: account, [PERMISSION]: permission } = item
           pathMap.push({

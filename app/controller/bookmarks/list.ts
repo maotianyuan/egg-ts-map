@@ -1,5 +1,7 @@
-import { Controller } from 'egg'
+import { Controller, Context } from 'egg'
 import { toInt } from '../../lib/utils'
+import * as xlsx from 'xlsx'
+import * as moment from 'moment'
 export default class BookmarksListController extends Controller {
   public async add() {
     const { ctx } = this
@@ -108,7 +110,6 @@ export default class BookmarksListController extends Controller {
         },
       }
     })
-    console.log('====', search)
     const result = await ctx.model.BookmarksList.findAll(search)
     ctx.body = {
       success: true,
@@ -136,5 +137,32 @@ export default class BookmarksListController extends Controller {
       success: true,
       list: result,
     }
+  }
+  public async exportExcel(ctx: Context) {
+    const ws_name = '技能小屋'
+    const wb = xlsx.utils.book_new()
+    const ws_data = await ctx.model.BookmarksList.findAll({
+      attributes: [
+        [ 'name', '标题' ],
+        [ 'subject', '简介' ],
+        [ 'link', '链接' ],
+      ],
+    })
+    const data = JSON.parse(JSON.stringify(ws_data))
+    const header = {
+      header: [ '标题', '简介', '链接' ],
+    }
+    const ws = xlsx.utils.json_to_sheet(data, header)
+    xlsx.utils.book_append_sheet(wb, ws, ws_name)
+    // xlsx.writeFile(wb, '技能列表.xlsx', {
+    //   type: 'buffer',
+    //   bookType: 'xlsx',
+    // })
+    ctx.set('Content-Disposition', `attachment; filename="download-${moment().format('L')}.xlsx";`)
+    ctx.body = xlsx.write(wb, {
+      type: 'buffer',
+      bookType: 'xlsx',
+    })
+    ctx.status = 200
   }
 }

@@ -25,4 +25,5 @@ export default (app: Application) => {
   router.post('/api/bookmarks/list/modify', controller.bookmarks.list.modify)
   router.post('/api/bookmarks/list/tableList', controller.bookmarks.list.list)
   router.get('/api/bookmarks/list/getTypeTag', controller.bookmarks.list.getTypeTag)
+  router.get('/api/bookmarks/list/exportExcel', controller.bookmarks.list.exportExcel)
 }
