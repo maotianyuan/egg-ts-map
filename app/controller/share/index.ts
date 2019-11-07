@@ -104,24 +104,16 @@ export default class HomeController extends Controller {
   public async shareList() {
     const { ctx } = this
     const Op = this.app.Sequelize.Op
-    const { count: total } = await ctx.model.Share.findAndCountAll()
     const { name = '', subject = '', status = '', labels = '', createdAt: created_at= '', updatedAt: updated_at = '', currentPage = 1, pageSize = 10, sorter = 'updatedAt_descend' }: any = ctx.request.query
     const supperOrderKey = [ 'createdAt', 'updatedAt' ] // 支持排序字段
-    const offset = pageSize * (parseInt(currentPage) - 1)
     const key = sorter.split('_')[0]
     const orderKey = supperOrderKey.includes(key) ? key : supperOrderKey[0]
     const orderValue = sorter.split('_')[1] === 'ascend' ? 'ASC' : 'DESC'
-    let limit = parseInt(pageSize)
-    if (offset + pageSize > total) {
-      limit = total - offset
-    }
-    const search = {
+    let search = {
       order: [
         [ orderKey, orderValue ],
       ],
-      where: { },
-      offset,
-      limit,
+      where: {},
     }
     const target = {
       name,
@@ -149,6 +141,19 @@ export default class HomeController extends Controller {
         }
       }
     })
+    const { count: total } = await ctx.model.Share.findAndCountAll(search)
+    if (pageSize !== 'all') {
+      const offset = pageSize * (parseInt(currentPage) - 1)
+      let limit = parseInt(pageSize)
+      if (offset + pageSize > total) {
+        limit = total - offset
+      }
+      search = Object.assign({}, search, {
+        offset,
+        limit,
+      })
+    }
+    
     const result = await ctx.model.Share.findAll(search)
     ctx.body = {
       success: true,

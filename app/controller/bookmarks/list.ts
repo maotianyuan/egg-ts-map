@@ -55,15 +55,12 @@ export default class BookmarksListController extends Controller {
   public async list() {
     const { ctx } = this
     const Op = this.app.Sequelize.Op
-    const { count: total } = await ctx.model.BookmarksList.findAndCountAll()
     const { name = '', subject = '', type = [], icon = '', link = '', currentPage = 1, pageSize = 10 }: any = ctx.request.body
     const [ _type = '', tag = '' ] = type
-    const offset = pageSize * (parseInt(currentPage) - 1)
-    let limit = parseInt(pageSize)
-    if (offset + pageSize > total) {
-      limit = total - offset
-    }
-    const search = {
+    let search = {
+      order: [
+        [ 'createdAt', 'DESC' ],
+      ],
       include: [
         {
           model: ctx.model.BookmarksType,
@@ -74,9 +71,7 @@ export default class BookmarksListController extends Controller {
           attributes: [ 'name' ],
         },
       ],
-      where: { },
-      offset,
-      limit,
+      where: {},
     }
     const target = {
       name,
@@ -110,6 +105,18 @@ export default class BookmarksListController extends Controller {
         },
       }
     })
+    const { count: total } = await ctx.model.BookmarksList.findAndCountAll(search)
+    if (pageSize !== 'all') {
+      const offset = pageSize * (parseInt(currentPage) - 1)
+      let limit = parseInt(pageSize)
+      if (offset + pageSize > total) {
+        limit = total - offset
+      }
+      search = Object.assign({}, search, {
+        offset,
+        limit,
+      })
+    }
     const result = await ctx.model.BookmarksList.findAll(search)
     ctx.body = {
       success: true,
@@ -128,7 +135,7 @@ export default class BookmarksListController extends Controller {
       include: [
         {
           model: ctx.model.BookmarksTag,
-          attributes: ['id', 'name' ],
+          attributes: [ 'id', 'name' ],
         },
       ],
     }

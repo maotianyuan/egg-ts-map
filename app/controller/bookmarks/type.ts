@@ -43,18 +43,10 @@ export default class BookMarksTypeController extends Controller {
   public async list() {
     const { ctx } = this
     const Op = this.app.Sequelize.Op
-    const { count: total } = await ctx.model.BookmarksType.findAndCountAll()
     const { name = '', subject = '', currentPage = 1, pageSize = 10 }: any = ctx.request.query
-    const offset = pageSize * (parseInt(currentPage) - 1)
-    let limit = parseInt(pageSize)
-    if (offset + pageSize > total) {
-      limit = total - offset
-    }
-    const search = {
+    let search = {
       attributes: [ 'id', 'name', 'subject' ],
-      where: { },
-      offset,
-      limit,
+      where: {},
     }
     const target = {
       name,
@@ -68,6 +60,18 @@ export default class BookMarksTypeController extends Controller {
         },
       }
     })
+    const { count: total } = await ctx.model.BookmarksType.findAndCountAll(search)
+    if (pageSize !== 'all') {
+      const offset = pageSize * (parseInt(currentPage) - 1)
+      let limit = parseInt(pageSize)
+      if (offset + pageSize > total) {
+        limit = total - offset
+      }
+      search = Object.assign({}, search, {
+        offset,
+        limit,
+      })
+    }
     const result = await ctx.model.BookmarksType.findAll(search)
     ctx.body = {
       success: true,
