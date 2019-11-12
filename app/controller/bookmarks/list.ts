@@ -86,7 +86,7 @@ export default class BookmarksListController extends Controller {
       if (item === 'type') {
         search.where[item] = {
           [Op.or]: {
-            [Op.substring]: _type,
+            [Op.eq]: _type,
           },
         }
         return
@@ -94,7 +94,7 @@ export default class BookmarksListController extends Controller {
       if (item === 'tag') {
         search.where[item] = {
           [Op.or]: {
-            [Op.substring]: tag,
+            [Op.eq]: tag,
           },
         }
         return

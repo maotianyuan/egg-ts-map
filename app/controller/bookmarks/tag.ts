@@ -59,15 +59,23 @@ export default class BookMarksTagController extends Controller {
       subject,
       type,
     }
-    const { count: total } = await ctx.model.BookmarksTag.findAndCountAll(search)
     Object.keys(target).map(item => {
       if (!target[item]) return
+      if (item === 'type') {
+        search.where[item] = {
+          [Op.or]: {
+            [Op.eq]: target.type,
+          },
+        }
+        return
+      }
       search.where[item] = {
         [Op.or]: {
           [Op.substring]: ctx.request.query[item],
         },
       }
     })
+    const { count: total } = await ctx.model.BookmarksTag.findAndCountAll(search)
     if (pageSize !== 'all') {
       const offset = pageSize * (parseInt(currentPage) - 1)
       let limit = parseInt(pageSize)
@@ -79,7 +87,6 @@ export default class BookMarksTagController extends Controller {
         limit,
       })
     }
-    
     const result = await ctx.model.BookmarksTag.findAll(search)
     ctx.body = {
       success: true,
