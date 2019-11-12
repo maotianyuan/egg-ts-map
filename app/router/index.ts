@@ -4,6 +4,7 @@ import share from './share'
 import heatmap from './heatmap'
 import email from './email'
 import tool from './tool'
+import login from './login'
 
 export default (app: Application) => {
   const { controller, router } = app
@@ -14,4 +15,5 @@ export default (app: Application) => {
   email(app) // 邮件
   share(app) // 分享屋
   tool(app) // 工具
+  login(app) // 登陆
 }

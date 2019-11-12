@@ -9,6 +9,4 @@ export default (app: Application) => {
   router.post('/api/share/modify', controller.share.index.shareModify)
   router.get('/api/share/tableList', controller.share.index.shareList)
   router.post('/api/share/cardlist', controller.share.index.shareCardList)
-  router.get('/api/currentUser', controller.share.index.user)
-  router.post('/api/login/account', controller.share.index.account)
 }

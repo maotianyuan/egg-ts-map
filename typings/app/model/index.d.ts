@@ -6,6 +6,7 @@ import ExportBookmarksList = require('../../../app/model/bookmarksList');
 import ExportBookmarksTag = require('../../../app/model/bookmarksTag');
 import ExportBookmarksType = require('../../../app/model/bookmarksType');
 import ExportShare = require('../../../app/model/share');
+import ExportUsersTb = require('../../../app/model/usersTb');
 
 declare module 'egg' {
   interface IModel {
@@ -13,5 +14,6 @@ declare module 'egg' {
     BookmarksTag: ReturnType<typeof ExportBookmarksTag>;
     BookmarksType: ReturnType<typeof ExportBookmarksType>;
     Share: ReturnType<typeof ExportShare>;
+    UsersTb: ReturnType<typeof ExportUsersTb>;
   }
 }

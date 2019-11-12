@@ -15,6 +15,7 @@ import 'egg-static';
 import 'egg-jsonp';
 import 'egg-view';
 import 'egg-view-nunjucks';
+import 'egg-validate';
 import 'egg-sequelize';
 import { EggPluginItem } from 'egg';
 declare module 'egg' {
@@ -32,6 +33,7 @@ declare module 'egg' {
     jsonp?: EggPluginItem;
     view?: EggPluginItem;
     nunjucks?: EggPluginItem;
+    validate?: EggPluginItem;
     sequelize?: EggPluginItem;
   }
 }

@@ -7,6 +7,7 @@ import ExportBookmarksList from '../../../app/controller/bookmarks/list';
 import ExportBookmarksTag from '../../../app/controller/bookmarks/tag';
 import ExportBookmarksType from '../../../app/controller/bookmarks/type';
 import ExportEmailIndex from '../../../app/controller/email/index';
+import ExportLoginIndex from '../../../app/controller/login/index';
 import ExportPathIndex from '../../../app/controller/path/index';
 import ExportShareIndex from '../../../app/controller/share/index';
 import ExportTableIndex from '../../../app/controller/table/index';
@@ -25,6 +26,9 @@ declare module 'egg' {
     }
     email: {
       index: ExportEmailIndex;
+    }
+    login: {
+      index: ExportLoginIndex;
     }
     path: {
       index: ExportPathIndex;

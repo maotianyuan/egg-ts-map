@@ -24,8 +24,11 @@ export default (appInfo: EggAppInfo) => {
     ],
   }
   config.middleware = [
-    // 'cors',
+    'error',
   ]
+  config.errorHandler = {
+    match: '/api',
+  }
   // add your special config in here
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
