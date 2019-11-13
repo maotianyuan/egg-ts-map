@@ -5,6 +5,6 @@ export default (app: Application) => {
    * 登陆
    */
   router.get('/api/currentUser', controller.share.index.user)
-  // router.resources('index', '/api/login/account', controller.login.index) 
+  // router.resources('login', '/api/login/account', controller.login.index)
   router.post('/api/login/account', controller.login.index.getUser)
 }
