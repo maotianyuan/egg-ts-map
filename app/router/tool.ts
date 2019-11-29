@@ -6,4 +6,5 @@ export default (app: Application) => {
    */
   router.get('/table/user/getJSON', controller.table.index.getUserJSON)
   router.get('/table/dealer/getJSON', controller.table.index.getDealerJSON)
+  router.get('/table/lostmap/index', controller.table.lostmap.getLostMap)
 }

@@ -38,6 +38,12 @@ export default class HomeController extends Controller {
             { title: '发送邮件', url: '/email/sendEmail' },
           ],
         },
+        {
+          type: 'excel 读取工具',
+          list: [
+            { title: '流向地图', url: '/table/lostmap/index' },
+          ],
+        },
       ],
     }
     await this.ctx.render('home.tpl', dataList)
