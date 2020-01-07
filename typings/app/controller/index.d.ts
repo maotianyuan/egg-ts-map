@@ -12,6 +12,7 @@ import ExportPathIndex from '../../../app/controller/path/index';
 import ExportShareIndex from '../../../app/controller/share/index';
 import ExportTableIndex from '../../../app/controller/table/index';
 import ExportTableLostmap from '../../../app/controller/table/lostmap';
+import ExportTablePointer from '../../../app/controller/table/pointer';
 import ExportHeatMapPositionDefaultCity from '../../../app/controller/heatMap/position/defaultCity';
 import ExportHeatMapPositionIndex from '../../../app/controller/heatMap/position/index';
 import ExportHeatMapPositionNormal from '../../../app/controller/heatMap/position/normal';
@@ -40,6 +41,7 @@ declare module 'egg' {
     table: {
       index: ExportTableIndex;
       lostmap: ExportTableLostmap;
+      pointer: ExportTablePointer;
     }
     heatMap: {
       position: {
