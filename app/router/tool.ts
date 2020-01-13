@@ -8,4 +8,6 @@ export default (app: Application) => {
   router.get('/table/dealer/getJSON', controller.table.index.getDealerJSON)
   router.get('/table/lostmap/index', controller.table.lostmap.getLostMap)
   router.get('/table/pointer/index', controller.table.pointer.getPointerJSON)
+  router.get('/table/pointer/createPath', controller.table.pointer.createPath)
+  router.get('/table/pointer/createPathDown', controller.table.pointer.createPathDown)
 }
