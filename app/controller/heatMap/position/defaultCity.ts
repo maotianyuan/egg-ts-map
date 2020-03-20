@@ -62,8 +62,9 @@ function getPosition({ sheet, fileName }) {
   const sheetJSON: HeatMapPositionSheet.Column[] = xlsx.utils.sheet_to_json(sheet)
   const heatMap = {}
   const rateObj = {}
-  const [ TYPE, RATE, CITY ] = [ '结果类别', '覆盖占比', '市' ]
-  const canCreateCity = [ '成都市', '广州市', '深圳市', '东莞市', '郑州市', '沈阳市', '长沙市', '武汉市', '石家庄市' ]
+  const [ TYPE, RATE, CITY ] = [ '结果类别', '覆盖总数', '市' ]
+  const canCreateCity = [ '天津市' ]
+  // const canCreateCity = [ '成都市', '广州市', '深圳市', '东莞市', '郑州市', '沈阳市', '长沙市', '武汉市', '石家庄市' ]
   const max = {}
   sheetJSON.forEach(item => {
     const { lon, lat, [RATE]: rate, [CITY] : city, [TYPE]: type } = item
