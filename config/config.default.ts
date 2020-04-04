@@ -21,6 +21,8 @@ export default (appInfo: EggAppInfo) => {
   config.multipart = {
     fileExtensions: [
       '.xlsx',
+      '.pdf',
+      '',
     ],
   }
   config.middleware = [

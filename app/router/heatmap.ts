@@ -47,7 +47,8 @@ export default (app: Application) => {
    * 路线派化
    */
    // 路线派化-上传
-  router.post('/path/index/file/upload', controller.path.index.upload)
+  router.post('/path/index/file/upload', controller.file.index.partUpload)
+  // router.post('/path/index/file/upload', controller.path.index.upload)
   // 路线派化-生成网页json
   router.get('/path/getJSON', controller.path.index.getJSON)
   // 路线派化-生成文件
